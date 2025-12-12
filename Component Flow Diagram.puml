@@ -1,0 +1,58 @@
+@startuml NotAppleMusic_ComponentFlow
+title Not Apple Music - Component Interaction Flow
+
+actor User as User
+participant "UI Pages" as UI
+participant "AudioPlayerProvider" as Provider
+participant "AudioPlayer" as Player
+participant "Audio Files" as Audio
+
+User -> UI : Clicks song
+activate UI
+UI -> Provider : playSong(song)
+activate Provider
+Provider -> Player : setAudioSource(song.url)
+activate Player
+Player -> Audio : Load audio file
+Audio --> Player : Audio loaded
+Player --> Provider : Source set
+Provider -> Player : play()
+Player -> Audio : Start playback
+Audio --> Player : Playing
+Player --> Provider : Playing state updated
+Provider --> UI : notifyListeners()
+deactivate Provider
+deactivate Player
+
+UI -> UI : Show MiniPlayer
+UI -> UI : Navigate to NowPlayingScreen
+
+User -> UI : Clicks play/pause
+activate UI
+UI -> Provider : togglePlayPause()
+activate Provider
+Provider -> Player : play()/pause()
+activate Player
+Player -> Audio : Toggle playback
+Audio --> Player : State changed
+Player --> Provider : State updated
+Provider --> UI : notifyListeners()
+deactivate Player
+deactivate Provider
+deactivate UI
+
+User -> UI : Seeks progress bar
+activate UI
+UI -> Provider : seek(position)
+activate Provider
+Provider -> Player : seek(position)
+activate Player
+Player -> Audio : Seek to position
+Audio --> Player : Position changed
+Player --> Provider : Position updated
+Provider --> UI : notifyListeners()
+deactivate Player
+deactivate Provider
+deactivate UI
+
+@enduml

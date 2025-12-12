@@ -1,0 +1,165 @@
+@startuml NotAppleMusic_CoreArchitecture
+title Not Apple Music - Core Architecture
+
+skinparam {
+  BackgroundColor #1a1a1a
+  defaultFontColor #ffffff
+  defaultFontSize 12
+  arrowColor #4a90e2
+  shadowing false
+  roundcorner 10
+}
+
+' ============== MAIN COMPONENTS ==============
+component "MyApp" as MyApp #2d2d2d
+component "MainTabBar" as MainTabBar #2d2d2d
+
+package "UI Screens" #3d3d3d {
+  component "ListenNow" as LPage #4a4a4a
+  component "Browse" as BPage #4a4a4a
+  component "Radio" as RPage #4a4a4a
+  component "Library" as LibPage #4a4a4a
+  component "Search" as SPage #4a4a4a
+  component "NowPlaying" as NPPage #4a4a4a
+  component "MiniPlayer" as MPlayer #4a4a4a
+}
+
+component "AudioPlayerProvider" as Provider #2d2d2d {
+  interface "ChangeNotifier" as CN
+}
+
+component "AudioPlayer" as Player #2d2d2d {
+  interface "AudioSession" as ASession
+}
+
+database "Assets" as Assets #3d3d3d {
+  folder "Audio" as AudioFiles
+  folder "Images" as ImageFiles
+}
+
+class "Song Model" as Song #4a4a4a {
+  + id: String
+  + title: String
+  + artist: String
+  + url: String
+  + art: String
+  + duration: Duration
+}
+
+' ============== DEPENDENCIES ==============
+cloud "Dependencies" as Deps {
+  component "flutter" as Flutter
+  component "just_audio" as JustAudio
+  component "provider" as ProviderPkg
+}
+
+' ============== USER & OUTPUT ==============
+actor "User" as User
+boundary "Audio Output" as Output
+
+' ============== CONNECTIONS ==============
+' App Structure
+MyApp --> MainTabBar : creates
+MainTabBar --> LPage : tab 1
+MainTabBar --> BPage : tab 2
+MainTabBar --> RPage : tab 3
+MainTabBar --> LibPage : tab 4
+MainTabBar --> SPage : tab 5
+MainTabBar --> MPlayer : always shows
+
+' Navigation
+LPage --> NPPage : on song tap
+BPage --> NPPage : on song tap
+LibPage --> NPPage : on song tap
+MPlayer --> NPPage : on tap
+
+' State Management
+LPage --> Provider : listens
+BPage --> Provider : listens
+RPage --> Provider : listens
+LibPage --> Provider : listens
+SPage --> Provider : listens
+NPPage --> Provider : listens
+MPlayer --> Provider : listens
+
+Provider --> CN : implements
+Provider --> Player : controls
+
+' Audio Layer
+Player --> ASession : uses
+Player --> AudioFiles : reads
+Player --> Output : plays
+
+' Data Models
+Provider --> Song : manages
+LPage --> Song : displays
+BPage --> Song : displays
+LibPage --> Song : displays
+Song --> AudioFiles : references
+Song --> ImageFiles : references
+
+' Dependencies
+MyApp ..> Flutter : uses
+Provider ..> ProviderPkg : uses
+Player ..> JustAudio : uses
+
+' User Interactions
+User --> LPage : interacts
+User --> BPage : interacts
+User --> RPage : interacts
+User --> LibPage : interacts
+User --> SPage : interacts
+User --> NPPage : controls
+User --> MPlayer : controls
+
+' ============== FLOW NOTES ==============
+note top of Provider
+  State Management:
+  - Manages playback state
+  - Controls audio player
+  - Handles song queue
+  - Notifies UI changes
+  - Processes user commands
+end note
+
+note right of Player
+  Audio Engine:
+  - Plays local/network audio
+  - Streams position/duration
+  - Handles audio session
+  - Manages playback state
+end note
+
+note left of Song
+  Data Model:
+  - Song metadata storage
+  - Asset path references
+  - Playback information
+  - User preferences
+end note
+
+' ============== SEQUENCE EXAMPLE ==============
+' Play Song Sequence
+User -> LPage : Tap song
+LPage -> Provider : playSong()
+Provider -> Player : setAudioSource()
+Player -> AudioFiles : Load audio
+AudioFiles -> Player : Audio data
+Provider -> Player : play()
+Player -> Output : Play audio
+Provider -> LPage : notifyListeners()
+LPage -> MPlayer : Show player
+LPage -> NPPage : Navigate
+
+' ============== LEGEND ==============
+legend top center
+  <b>Architecture Legend</b>
+  |<#2d2d2d> **Main Components** | Core app structure |
+  |<#3d3d3d> **Containers** | Groups of components |
+  |<#4a4a4a> **UI Elements** | Screens & widgets |
+  |→ **Solid Arrow** | Direct dependency |
+  |..> **Dotted Arrow** | Package dependency |
+  |<#4a90e2> **Blue Arrow** | User interaction flow |
+end legend
+
+@enduml

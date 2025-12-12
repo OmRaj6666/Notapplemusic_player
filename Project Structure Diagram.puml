@@ -1,0 +1,47 @@
+@startuml NotAppleMusic_ProjectStructure
+title Not Apple Music - Project Structure
+
+package "notapplemusic/" {
+  folder .dart_tool
+  folder .idea
+  folder android
+  folder ios
+  folder linux
+  folder macos
+  folder windows
+  folder web
+  folder test
+  
+  package "assets/" {
+    package "audio/" {
+      file sample1.mp3
+      file sample2.mp3
+    }
+    package "images/" {
+      file album1.jpg
+      file album2.jpg
+    }
+    file cover1.jpg
+    file cover2.jpg
+    file cover3.jpg
+    file cover4.jpg
+    file cover5.jpg
+  }
+  
+  folder build
+  folder lib {
+    file main.dart
+  }
+  
+  file ".flutter-plugins-dependencies"
+  file ".gitignore"
+  file ".metadata"
+  file "analysis_options.yaml"
+  file "pubspec.lock"
+  file "pubspec.yaml"
+  file "README.md"
+  file "LICENSE"
+  file "start.sh"
+}
+
+@enduml

@@ -1,0 +1,89 @@
+@startuml NotAppleMusic_Architecture
+title Not Apple Music - App Architecture
+
+package "UI Layer" {
+  [MainTabBar] as MainTabBar
+  [ListenNowPage] as ListenNowPage
+  [BrowsePage] as BrowsePage
+  [RadioPage] as RadioPage
+  [LibraryPage] as LibraryPage
+  [SearchPage] as SearchPage
+  [NowPlayingScreen] as NowPlayingScreen
+  [MiniPlayer] as MiniPlayer
+}
+
+package "State Management" {
+  [AudioPlayerProvider] as Provider
+  [ChangeNotifier] as ChangeNotifier
+}
+
+package "Audio Layer" {
+  [AudioPlayer] as AudioPlayer
+  [AudioSession] as AudioSession
+  [AudioSource] as AudioSource
+}
+
+package "Models" {
+  [Song Model] as Song
+  [Song List] as Songs
+}
+
+package "Assets" {
+  [Audio Files] as Audio
+  [Images] as Images
+}
+
+package "Dependencies" {
+  [just_audio] as JustAudio
+  [provider] as ProviderPkg
+  [audio_session] as AudioSessionPkg
+}
+
+' Relationships
+MainTabBar --> ListenNowPage : contains
+MainTabBar --> BrowsePage : contains
+MainTabBar --> RadioPage : contains
+MainTabBar --> LibraryPage : contains
+MainTabBar --> SearchPage : contains
+
+ListenNowPage --> MiniPlayer : shows
+BrowsePage --> MiniPlayer : shows
+RadioPage --> MiniPlayer : shows
+LibraryPage --> MiniPlayer : shows
+SearchPage --> MiniPlayer : shows
+
+MiniPlayer --> NowPlayingScreen : navigates to
+ListenNowPage --> NowPlayingScreen : navigates to
+LibraryPage --> NowPlayingScreen : navigates to
+
+Provider --> AudioPlayer : manages
+Provider --> ChangeNotifier : extends
+Provider --> Song : uses
+
+NowPlayingScreen --> Provider : listens to
+MiniPlayer --> Provider : listens to
+
+
+AudioPlayer --> AudioSession : uses
+AudioPlayer --> AudioSource : plays
+AudioPlayer --> JustAudio : from package
+
+Provider --> ProviderPkg : uses
+AudioSession --> AudioSessionPkg : from package
+
+Song --> Audio : references
+Song --> Images : references
+
+' Styling
+skinparam backgroundColor #1a1a1a
+skinparam classBackgroundColor #2d2d2d
+skinparam classBorderColor #4a4a4a
+skinparam classFontColor #ffffff
+skinparam packageBackgroundColor #2d2d2d
+skinparam packageBorderColor #4a4a4a
+skinparam packageFontColor #ffffff
+skinparam arrowColor #4a90e2
+skinparam noteBackgroundColor #2d2d2d
+skinparam noteBorderColor #4a4a4a
+
+@enduml
