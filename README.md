@@ -1,8 +1,9 @@
 # Not Apple Music 🎵
 
 A Flutter music player app with Apple Music-inspired UI, featuring a beautiful dark theme, smooth animations, and full audio playback functionality.
+<img width="1024" height="1024" alt="Gemini_Generated_Image_iradi0iradi0irad" src="https://github.com/user-attachments/assets/f5047165-4df8-44d0-a2f9-5a7a97900daa" />
 
-![App Screenshot](https://via.placeholder.com/300x600/000000/FFFFFF?text=Not+Apple+Music)
+
 
 ## Features ✨
 
@@ -63,7 +64,7 @@ notapplemusic/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/notapplemusic.git
+   git clone :https://github.com/OmRaj6666/Notapplemusic_player.git
    cd notapplemusic
 
 Install dependencies
