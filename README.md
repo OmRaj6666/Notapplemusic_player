@@ -23,34 +23,9 @@ A Flutter music player app with Apple Music-inspired UI, featuring a beautiful d
 ![Screenshots]( Screenshots3.png)
 ![Screenshots]( Screenshots4.png)
 ## Project Structure 🏗️
-notapplemusic/
-├── .dart_tool/
-├── .idea/
-├── android/
-├── assets/
-│   ├── audio/
-│   │   ├── sample1.mp3
-│   │   └── sample2.mp3
-│   └── images/
-│       ├── album1.jpg
-│       └── album2.jpg
-├── build/
-├── ios/
-├── lib/
-│   └── main.dart
-├── linux/
-├── macos/
-├── test/
-├── web/
-├── windows/
-├── .flutter-plugins-dependencies
-├── .gitignore
-├── .metadata
-├── analysis_options.yaml
-├── pubspec.lock
-├── pubspec.yaml
-└── README.md
 
+
+<img width="432" height="657" alt="Screenshot 2025-12-13 at 2 45 28 AM" src="https://github.com/user-attachments/assets/dfd3d345-c4ac-4dc4-abca-52b63fa505c0" />
 
 ## Getting Started 🚀
 
